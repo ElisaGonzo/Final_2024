@@ -133,6 +133,22 @@ The COVID-19 vaccine for men demonstrates an efficacy of 64.48%, surpassing the 
 
 ## Females
 
+### Summary of Females
+```{r}
+female_summary <- Female %>%
+  group_by(treatment, infected) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  pivot_wider(names_from = infected, values_from = count, values_fill = 0)
+female_summary <- female_summary %>%
+  mutate(total = rowSums(select(., -treatment)))
+female_column_totals <- female_summary %>%
+  summarise(across(where(is.numeric), sum)) %>%
+  mutate(treatment = "Total")
+female_summary <- bind_rows(female_summary, female_column_totals)
+female_summary
+```
+
+Here’s the data for the women so far: There are 18,328 females in total, with 17,963 being healthy and 365 infected with COVID. Since these numbers alone don’t clearly show a trend, let’s add a bar plot for better visual representation.
 
 ## LGBTQ
 
