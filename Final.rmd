@@ -220,11 +220,26 @@ female_hi
 
 ### `r effectiveness_female`% Effectiveness with Confidence Interval: `r female_low`%  to `r female_hi`%
  
- 
+The vaccine's efficacy for females is shown above. A vaccine is considered effective if its efficacy exceeds 50%. However, with a calculated efficacy of 46.13% and a confidence interval ranging from 32.79% to 56.98%, we conclude that the vaccine is ineffective at reducing infection rates in females. The alternative hypothesis suggested that the vaccine reduces infection rates, while the null hypothesis stated it has no effect. Based on the extremely low p-value from Fisher's Exact Test and an odds ratio of 1.9, we reject the null hypothesis and accept the alternative. This suggests that the vaccine may actually increase the risk of infection in females. The odds ratio indicates that women who received the vaccine were nearly 1.9 times more likely to contract COVID-19 compared to those who received the placebo. The confidence interval further supports this finding, suggesting a modest, and likely negative, impact on vaccine effectiveness.
  
 ## LGBTQ
 
+### Summary of LGBTQ
+```{r}
+gay_summary <- Gay %>%
+  group_by(treatment, infected) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  pivot_wider(names_from = infected, values_from = count, values_fill = 0)
+gay_summary <- gay_summary %>%
+  mutate(total = rowSums(select(., -treatment)))
+gay_column_totals <- gay_summary %>%
+  summarise(across(where(is.numeric), sum)) %>%
+  mutate(treatment = "Total")
+gay_summary <- bind_rows(gay_summary, gay_column_totals)
+gay_summary
+```
 
+Here is the LGBTQ data available so far: There are 3,060 LGBTQ individuals, with 3,000 being healthy and 60 infected with COVID. Since these numbers alone don't clearly show a trend, let's add a bar plot for better visual representation.
 
 ## Druggies
 
