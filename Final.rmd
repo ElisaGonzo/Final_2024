@@ -30,7 +30,7 @@ DrugUser = filter(FinalData, DrugUser =="yes")
 
 A new  preventative vaccine (covid921) is under test in clinical trials. Given the nature of this vaccine it is suspected that the drug may exhibit different effectiveness across the variety of subpopulations tracked. Consider population subgroups by gender( guys and gals), drug use, and sexual orientation. Write a complete report that separately considers this drug for each subgroup and your recommendations as to whether people in the subgroup should take the vaccine. Structure your report in four sections each devoted to one of the four subgroups, use null and alternative hypothesis statements and correct statistical verbage when referencing p-values in conclusions.
 
-#Overall apporach 
+##Overall apporach 
 
 1. **Descriptive Analysis**: Summarize data perceptibly then numerically.  
 2. **Inferential Analysis**: Perform hypothesis testing:  
@@ -59,6 +59,46 @@ male_summary
 ```
 
 Here’s the current data for men: There are 18,392 men in total. Of these, 18,037 are considered healthy, while 355 have COVID. To better illustrate this, let's include a bar plot for a clearer visual representation, as the numbers alone don't effectively show the trend.
+
+###Visual results 
+```{r}
+# Bar plot
+
+# Summarize the data for Males by infection status and treatment
+male_summary_data <- Male %>%
+  group_by(infected, treatment) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  mutate(prcnt = count / sum(count))
+
+# Bar plot for count of infected vs treatment
+male_plot_count <- ggplot(male_summary_data, aes(x = infected, y = count, fill = treatment))
+male_plot_count + 
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Number of Males Infected by Treatment",
+       x = "Infection Status", y = "Count of Infected Males") +
+  scale_fill_manual(values = c("placebo" = "gray", "vaccine" = "blue")) +
+  theme_minimal()
+
+# Bar plot for percentage of infected vs treatment
+male_plot_percent <- ggplot(male_summary_data, aes(x = infected, y = prcnt * 100, fill = treatment))
+male_plot_percent + 
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Percentage of Males Infected by Treatment",
+       x = "Infection Status", y = "Percentage of Infected Males") +
+  scale_fill_manual(values = c("placebo" = "gray", "vaccine" = "blue")) +
+  theme_minimal()
+```
+
+The bar plots above show the number of males infected with COVID-19. In both graphs, the results are similar to the placebo group, but visually, males who received the vaccination seem to have lower COVID rates compared to the placebo group. Although there is a noticeable difference, we need to conduct a statistical analysis to determine if this difference is significant.
+
+### Numerical Results
+```{r}
+table1 <- xtabs(~infected + treatment, data=Male)
+rowPerc(table1)
+colPerc(table1)
+```
+
+The numerical data shows that 73.8% of the infected males received the placebo, while 26.2% received the vaccine. Among the healthy individuals, 49.99% received the vaccine, and 50.01% received the placebo. Overall, 2.82% of males who received the placebo contracted COVID-19, compared to just 1.02% of those who received the vaccine, suggesting that the vaccination reduces infection rates. These findings support the conclusion that the vaccine is effective in reducing COVID-19 in males, which aligns with the trends shown in the bar plots.
 
 ## Females
 
