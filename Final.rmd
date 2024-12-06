@@ -376,4 +376,35 @@ colPerc(table4)
 
 The numerical data shows that 91.7% of infected drug users had received the vaccine, while 8.3% had received the placebo. Among those who are healthy, 49.0% received the vaccine and 51.0% received the placebo. Overall, 3.6% of drug users who received the vaccine contracted COVID-19, compared to just 0.33% of those who received the placebo, suggesting that the vaccine may be associated with a higher risk of infection in this population. These findings indicate that the vaccine might not be effective in reducing COVID-19 incidence among drug users. This is consistent with the bar plots, which visually show higher infection rates among vaccinated drug users.
 
+### Inferential Results
+
+```{r}
+chisq.test(table4)
+chisqtestGC(table4)
+DrugUserfish <- fisher.test(table4)
+DrugUserfish
+```
+
+The key finding from Fisher's Exact Test is the extremely small p-value of 0.000000000003, which strongly suggests that the observed differences in infection rates between the vaccine and placebo groups are highly unlikely to have occurred by chance. This leads us to reject the null hypothesis, which assumes that treatment has no effect on infection rates. The odds ratio of approximately 0.087 indicates that drug users who received the vaccine had an 11.5-fold lower risk of contracting COVID-19 compared to those who received the placebo. These results suggest that the vaccine is highly effective in preventing COVID-19 in drug users. This aligns with the statistical findings showing lower infection rates among vaccinated individuals in this group.
+
+```{r}
+# Calculate effectiveness
+DrugUserfish <- fisher.test(table4)
+effectiveness_drug <- (1 - DrugUserfish$estimate) * 100
+print(effectiveness_drug)
+
+# Calculate effectiveness confidence level
+drug_low <- (1 - DrugUserfish$conf.int[2]) * 100  
+drug_hi <- (1 - DrugUserfish$conf.int[1]) * 100  
+options(digits = 2)
+
+#print
+drug_low
+drug_hi
+```
+
+### `r effectiveness_drug`% Effectiveness with Confidence Interval: `r drug_low`%  to `r drug_hi`%
+
+The efficacy of the COVID-19 vaccine for drug users is shown above. A vaccine is considered effective if its efficacy is over 50%. With an efficacy of 91.3% and a confidence interval of 78.0% to 97.3%, we can conclude that the vaccine is highly effective at reducing infection rates among drug users. The alternative hypothesis suggests the vaccine lowers infection rates, while the null hypothesis says it has no effect. The very low p-value from Fisher's Exact Test and an odds ratio of 0.087 lead us to reject the null hypothesis. This means the vaccine significantly lowers infection rates for drug users. The odds ratio of 0.087 shows that vaccinated drug users have an 11.5 times lower risk of contracting COVID-19 compared to those who received the placebo. Since the odds ratio is less than 1, the vaccine is highly effective. The confidence interval further supports this, confirming the vaccine’s strong protective effect for drug users.
+
 # Overall Results and Conclusions
