@@ -281,6 +281,16 @@ colPerc(table3)
 
 The numerical data shows that 20% of the gay individuals who contracted COVID had received the vaccine, while 80% had received the placebo. Among the healthy individuals, 52% received the vaccine and 48% received the placebo. Overall, 0.77% of gay individuals who received the vaccine contracted COVID-19, compared to 3.2% of those who received the placebo, suggesting that the vaccine reduces infection rates. These results indicate that the vaccine is effective in reducing the prevalence of COVID-19 among LGBTQ individuals, which aligns with the trends shown in the bar plots demonstrating its efficacy.
 
+### Inferential Results
+```{r}
+chisq.test(table3)
+chisqtestGC(table3)
+Gayfish <- fisher.test(table3)
+Gayfish
+```
+
+The key finding from Fisher's Exact Test is a very small p-value of 0.0000007, which suggests that the observed differences in infection rates between the vaccine and placebo groups are highly unlikely to have occurred by chance. As a result, we reject the null hypothesis, which posits that treatment has no effect on infection rates. The odds ratio of approximately 4.3 indicates that gay individuals who received the vaccine had about a 4.3 times higher risk of contracting COVID-19 compared to those who received the placebo. These results suggest that the vaccine does not protect gay individuals from COVID-19.
+
 ## Druggies
 
 
