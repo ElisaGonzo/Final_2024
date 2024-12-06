@@ -272,7 +272,14 @@ gay_plot_percent +
 
 The bar plots above show the number of LGBTQ individuals infected with COVID-19. Visually, gay people who received the vaccine appear to have lower COVID rates compared to those who received the placebo. While the differences are quite noticeable, a statistical analysis is needed to determine if the difference is statistically significant.
 
+### Numerical Results
+```{r}
+table3 <- xtabs(~infected + treatment, data=Gay)
+rowPerc(table3)
+colPerc(table3)
+```
 
+The numerical data shows that 20% of the gay individuals who contracted COVID had received the vaccine, while 80% had received the placebo. Among the healthy individuals, 52% received the vaccine and 48% received the placebo. Overall, 0.77% of gay individuals who received the vaccine contracted COVID-19, compared to 3.2% of those who received the placebo, suggesting that the vaccine reduces infection rates. These results indicate that the vaccine is effective in reducing the prevalence of COVID-19 among LGBTQ individuals, which aligns with the trends shown in the bar plots demonstrating its efficacy.
 
 ## Druggies
 
